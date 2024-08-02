@@ -1,0 +1,62 @@
+@host = http://localhost:8000/api/v1
+@token = Bearer {{login.response.body.data}}
+@userId = {{getUser.response.body.data._id}}
+
+
+###
+# @name serverTesting
+GET http://localhost:8000
+
+###
+# @name getAllUsers
+GET {{host}}/users
+Authorization: {{token}}
+
+
+###
+# @name createUser
+POST {{host}}/users
+Content-Type: application/json
+{
+    "userName": "John Doe10",
+    "password":"123456",
+    "email": "john10@gmail.com"
+}
+
+###
+# @name getUser
+GET {{host}}/users/66951050ba6883286481ca2a
+Authorization: {{token}}
+
+### @name updateUser
+PUT {{host}}/users/{{userId}}
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "userName": "John Doe1",
+    "password":"123456",
+    "email": "johnDoe1@gmail.com"
+}
+
+###
+# @name deleteUser
+DELETE {{host}}/users/{{userId}}
+Authorization: {{token}}
+
+################################# AUTH
+
+###
+# @name login
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "john2@gmail.com",
+    "password":"123456",
+    "rememberMe":false
+}
+
+###
+# @name logout
+POST {{host}}/auth/logout
